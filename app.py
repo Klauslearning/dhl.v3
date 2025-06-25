@@ -88,7 +88,7 @@ if uploaded_file:
         for i, row in edited.iterrows():
             formatted_code = format_commodity_code(row["Commodity Code"])
             dhl_rows.append([
-                i + 1,  # Unique Item Number
+                1,  # Unique Item Number 固定为1
                 "INV_ITEM",  # Item
                 row["Item Description"],
                 formatted_code,
