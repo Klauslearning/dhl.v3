@@ -3,6 +3,12 @@ import pandas as pd
 import os
 from utils import local_lookup, query_uk_tariff_api, append_sku_record
 
+def format_commodity_code(code):
+    code = str(code).replace(".", "").strip()
+    if code.isdigit() and len(code) == 8:
+        return f"{code[:4]}.{code[4:6]}.{code[6:]}"
+    return code
+
 # App title
 st.set_page_config(page_title="DHL 发货自动生成系统 v4", layout="wide")
 st.title("📦 DHL 发货自动生成系统 v4")
@@ -80,11 +86,12 @@ if uploaded_file:
         # 2. 生成 DHL_ready_file.csv
         dhl_rows = []
         for i, row in edited.iterrows():
+            formatted_code = format_commodity_code(row["Commodity Code"])
             dhl_rows.append([
                 i + 1,  # Unique Item Number
                 "INV_ITEM",  # Item
                 row["Item Description"],
-                row["Commodity Code"],
+                formatted_code,
                 1,  # Quantity
                 "PCS",  # Units
                 row["Selling Price"],
