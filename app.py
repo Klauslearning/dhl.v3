@@ -4,10 +4,10 @@ import os
 from utils import local_lookup, query_uk_tariff_api, append_sku_record
 
 def format_commodity_code(code):
-    code = str(code).replace(".", "").strip()
-    if code.isdigit() and len(code) == 8:
-        return f"{code[:4]}.{code[4:6]}.{code[6:]}"
-    return code
+    digits = ''.join(filter(str.isdigit, str(code)))
+    if len(digits) == 8:
+        return f"{digits[:4]}.{digits[4:6]}.{digits[6:]}"
+    return str(code)
 
 # App title
 st.set_page_config(page_title="DHL 发货自动生成系统 v4", layout="wide")
